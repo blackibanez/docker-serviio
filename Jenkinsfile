@@ -22,7 +22,7 @@ pipeline {
                script {
                  sh '''
                     docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG
-                    sleep 5
+                    sleep 30
                  '''
                }
             }
@@ -32,7 +32,7 @@ pipeline {
            steps {
               script {
                 sh '''
-                    curl http://localhost:23423 | grep -q "Serviio"
+                    curl http://localhost:23423/console/#/app/welcome | grep -q "Serviio"
                 '''
               }
            }
