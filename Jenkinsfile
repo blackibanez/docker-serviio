@@ -34,7 +34,7 @@ pipeline {
            steps {
               script {
                 sh '''
-                    curl http://125.0.0.1:23423/console/#/app/welcome/ | grep -q "Serviio"
+                    curl http://127.0.0.1:23423/console/#/app/welcome/ | grep -q "Serviio"
                 '''
               }
            }
