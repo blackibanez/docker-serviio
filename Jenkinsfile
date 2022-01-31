@@ -5,6 +5,8 @@ pipeline {
        IMAGE_TAG = "latest"
        STAGING = "serviio-staging"
        PRODUCTION = "serviio-production"
+       PRODUCTION_IP_HOST = "52.23.205.35"
+       
      }
      agent none
      stages {
@@ -39,6 +41,20 @@ pipeline {
               }
            }
       }
+       stage('Push on Dockerhub') {
+          agent any
+          environment {
+               PASSWORD = credentials('password_dockerhub')
+          } 
+          steps {
+             script {
+               sh '''
+                 docker login -u blackibanez -p $PASSWORD
+                 docker push blackibanez/$IMAGE_NAME:$IMAGE_TAG
+               '''
+             }
+          }
+     } 
       stage('Clean Container') {
           agent any
           steps {
@@ -78,15 +94,26 @@ pipeline {
           HEROKU_API_KEY = credentials('heroku_api_key')
       }  
       steps {
-          script {
+           withCredentials([sshUserPrivateKey(credentialsId: "private_key", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) 
+           {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') 
+            {                        
+                 script
+             {                           
+                  timeout(time: 15, unit: "MINUTES") 
+              {                                
+                   input message: 'Do you want to approve the deploy in production?', ok: 'Yes'                            
+              }
             sh '''
-              heroku container:login
-              heroku create $PRODUCTION || echo "project already exist"
-              heroku container:push -a $PRODUCTION web
-              heroku container:release -a $PRODUCTION web
+              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker stop $IMAGE_NAME  || true
+              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rm $IMAGE_NAME  || true
+              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rmi blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
             '''
-          }
+             }
+           }
         }
      }
+    }      
   }
 }
