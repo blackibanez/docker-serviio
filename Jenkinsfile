@@ -115,5 +115,36 @@ pipeline {
         }
      }
     }      
-  }
+          stage('Deploy app on EC2-cloud alpine') {
+            agent {
+                docker {
+                    image('alpine')
+                    args ' -u root'
+                }
+            }
+            when{
+                expression{ GIT_BRANCH == 'origin/master' && DEPLOY_APP != 'yes'}
+            }
+            steps{
+                withCredentials([sshUserPrivateKey(credentialsId: "private_key", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        script{
+                            timeout(time: 15, unit: "MINUTES") {
+                                input message: 'Do you want to approve the deploy in production?', ok: 'Yes'
+                            }						
+                            sh'''
+                                apk update
+                                which ssh-agent || ( apk add openssh-client )
+                                eval $(ssh-agent -s)
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker stop $IMAGE_NAME  || true
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rm $IMAGE_NAME  || true
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rmi blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+                                ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+                            '''
+                        }
+                    }
+                }
+            }
+        } 
+ }
 }
