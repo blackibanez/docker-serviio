@@ -20,9 +20,12 @@ pipeline {
             agent any
             steps {
                script {
+                    try {
                  sh '''
                     docker stop $IMAGE_NAME_2
                     docker rm $IMAGE_NAME_2
+                 ''' }
+                   sh ''' 
                     docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG
                     sleep 180
                  '''
