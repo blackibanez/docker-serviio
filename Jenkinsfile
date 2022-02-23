@@ -95,7 +95,7 @@ pipeline {
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker stop $IMAGE_NAME_2  || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker rm $IMAGE_NAME_2  || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker rmi blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
-              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 -v ${SERVIIO_VOLUME}/config:/opt/serviio/config  -v ${SERVIIO_VOLUME}/library:/opt/serviio/library -v ${SERVIIO_VOLUME}/plugins:/opt/serviio/plugins -v ${SERVIIO_VOLUME}/log:/opt/serviio/log -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 -v serviio -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
             '''
              }
            }
