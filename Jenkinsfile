@@ -1,6 +1,6 @@
 pipeline {
      environment {
-       IMAGE_NAME = "Serviio"
+       IMAGE_NAME = "serviio"
        IMAGE_NAME_2 = "Serviio"
        IMAGE_TAG = "latest"
        STAGING = "serviio-staging"
