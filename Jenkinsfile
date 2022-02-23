@@ -26,7 +26,7 @@ pipeline {
                     docker stop $IMAGE_NAME_2 || true
                     docker rm $IMAGE_NAME_2 || true
                     docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG
-                    sleep 300
+                    sleep 90
                  '''
                }
             }
@@ -36,7 +36,7 @@ pipeline {
            steps {
               script {
                 sh '''
-                    curl http://172.17.0.1:23423/console/#/app/welcome/ | grep "serviio"
+                    curl http://localhost:23423/console/#/app/welcome/ | grep "serviio"
                 '''
               }
            }
