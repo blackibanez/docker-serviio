@@ -41,10 +41,6 @@ EXPOSE 23424/tcp
 # HTTPS/1.1 /cds /mediabrowser
 EXPOSE 23524/tcp
 
-VOLUME /opt/serviio/log
-VOLUME /opt/serviio/config
-VOLUME /opt/serviio/plugins
-VOLUME /opt/serviio/library
 
 HEALTHCHECK --start-period=5m CMD wget --quiet --tries=1 -O /dev/null --server-response --timeout=5 http://127.0.0.1:23423/console/ || exit 1
 
