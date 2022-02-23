@@ -8,7 +8,7 @@ pipeline {
  
        
      }
-     agent none
+     agent any
      stages {
          stage('Build image') {
              agent any
@@ -36,7 +36,7 @@ pipeline {
            steps {
               script {
                 sh '''
-                    curl http://localhost:23423/console/#/app/welcome/ | grep "serviio"
+                    curl http://172.17.0.1:23423/console/#/app/welcome/ | grep "serviio"
                 '''
               }
            }
