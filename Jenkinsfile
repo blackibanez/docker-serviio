@@ -91,10 +91,10 @@ pipeline {
                    input message: 'Do you want to approve the deploy on $PRODUCTION_IP_HOST?', ok: 'Yes'                            
               }
             sh '''
+              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker pull $IMAGE_NAME_2 || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker stop $IMAGE_NAME_2 || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker rm $IMAGE_NAME_2  || true
-              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker rmi blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
-              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900  -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 -v serviio:/opt/serviio -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
             '''
              }
            }
