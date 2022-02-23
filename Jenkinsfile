@@ -75,6 +75,7 @@ pipeline {
            PRODUCTION_IP_HOST = credentials('diskstation_2_ip')
            SERVIIO_VOLUME = credentials('serviio_volume_folder')
            MEDIA_VOLUME = credentials('media_volume_folder')
+           DOWNLOADS_VOLUME = credentials('downloads_volume_folder')
           } 
 
       steps {
@@ -93,7 +94,7 @@ pipeline {
               ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker stop $IMAGE_NAME  || true
               ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rm $IMAGE_NAME  || true
               ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rmi blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
-              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker run --name $IMAGE_NAME -d -p 23423:23423 -p 8895:8895 -p 1900:1900 -v $SERVIIO_VOLUME:/opt/serviio -v MEDIA_VOLUME:/media/serviio  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker run --name $IMAGE_NAME -d -p 23423:23423 -p 8895:8895 -p 1900:1900 -v $SERVIIO_VOLUME:/opt/serviio -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
             '''
              }
            }
