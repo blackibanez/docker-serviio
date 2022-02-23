@@ -71,9 +71,7 @@ pipeline {
               expression { GIT_BRANCH == 'origin/master' }
             }
       agent any
-      environment {
-          HEROKU_API_KEY = credentials('heroku_api_key')
-      }  
+
       steps {
            withCredentials([sshUserPrivateKey(credentialsId: "private_key", keyFileVariable: 'keyfile', usernameVariable: 'NUSER')]) 
            {
@@ -83,13 +81,13 @@ pipeline {
              {                           
                   timeout(time: 15, unit: "MINUTES") 
               {                                
-                   input message: 'Do you want to approve the deploy in production?', ok: 'Yes'                            
+                   input message: 'Do you want to approve the deploy on ${PRODUCTION_IP_HOST}?', ok: 'Yes'                            
               }
             sh '''
               ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker stop $IMAGE_NAME  || true
               ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rm $IMAGE_NAME  || true
               ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker rmi blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
-              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+              ssh -o StrictHostKeyChecking=no -i ${keyfile} ${NUSER}@${PRODUCTION_IP_HOST} docker run --name $IMAGE_NAME -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
             '''
              }
            }
