@@ -19,7 +19,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 ARG FFMPEG_VERSION=4.3.2
 ARG JASPER_VERSION=2.0.14
-
+ENV TZ Europe/Paris
 ENV JAVA_HOME="/usr"
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl ffmpeg net-tools software-properties-common openjdk-8-jre default-jre  dcraw wget && \
 	curl -s http://download.serviio.org/releases/serviio-${VERSION}-linux.tar.gz | tar zxvf - -C . && \
