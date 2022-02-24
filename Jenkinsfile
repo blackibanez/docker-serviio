@@ -19,7 +19,7 @@ pipeline {
              }
         }
         stage('Run container based on builded image') {
-            agent any
+            agent Debian
             steps {
                  script {
                  sh '''
@@ -32,7 +32,7 @@ pipeline {
             }
        }
        stage('Test image') {
-           agent any
+           agent Debian
            steps {
               script {
                 sh '''
