@@ -25,7 +25,7 @@ pipeline {
                  sh '''
                     docker stop $IMAGE_NAME_2 || true
                     docker rm $IMAGE_NAME_2 || true
-                    docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 blackibanez/$IMAGE_NAME:$IMAGE_TAG
+                    docker run --name $IMAGE_NAME_2 -d --net host blackibanez/$IMAGE_NAME:$IMAGE_TAG
                     sleep 90
                  '''
                }
@@ -88,7 +88,7 @@ pipeline {
              {                           
                   timeout(time: 15, unit: "MINUTES") 
               {                                
-                   input message: 'Do you want to approve the deploy on $PRODUCTION_IP_HOST?', ok: 'Yes'                            
+                   input message: 'Do you want to approve the deploy on Diskstation ?', ok: 'Yes'                            
               }
             sh '''
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} mkdir -p ${SERVIIO_VOLUME}/log ${SERVIIO_VOLUME}/plugins ${SERVIIO_VOLUME}/library
