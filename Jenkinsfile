@@ -91,10 +91,11 @@ pipeline {
                    input message: 'Do you want to approve the deploy on $PRODUCTION_IP_HOST?', ok: 'Yes'                            
               }
             sh '''
+              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} mkdir -p ${SERVIIO_VOLUME}/log ${SERVIIO_VOLUME}/plugins ${SERVIIO_VOLUME}/library
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker pull $IMAGE_NAME_2 || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker stop $IMAGE_NAME_2 || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker rm $IMAGE_NAME_2  || true
-              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker run --name $IMAGE_NAME_2 -d -p 23423:23423 -p 8895:8895 -p 1900:1900 -v /volume1/docker/Serviio/log:/opt/serviio/log  -v /volume1/docker/Serviio/library:/opt/serviio/library -v /volume1/docker/Serviio/plugins:/opt/serviio/plugins -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} /usr/local/bin/docker run --name $IMAGE_NAME_2 -d --net host -v ${SERVIIO_VOLUME}/log:/opt/serviio/log  -v ${SERVIIO_VOLUME}/library:/opt/serviio/library -v ${SERVIIO_VOLUME}/plugins:/opt/serviio/plugins -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
             '''
              }
            }
