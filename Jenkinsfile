@@ -42,7 +42,7 @@ pipeline {
            }
       }
        stage('Push on Dockerhub') {
-          agent any
+          agent { label 'Debian' }
           environment {
                PASSWORD = credentials('password_dockerhub')
           } 
@@ -56,7 +56,7 @@ pipeline {
           }
      } 
       stage('Clean Container') {
-          agent any
+          agent { label 'Debian' }
           steps {
              script {
                sh '''
