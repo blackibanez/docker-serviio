@@ -2,7 +2,11 @@
 
 [![](http://serviio.org/images/serviio.png)](http://serviio.org/) 
 
-[![](https://images.microbadger.com/badges/image/blackibanez/serviio.svg)](https://microbadger.com/images/blackibanez/serviio) [![Docker Pulls](https://img.shields.io/docker/pulls/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/) [![Docker Stars](https://img.shields.io/docker/stars/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/) [![GitHub last commit](https://img.shields.io/github/last-commit/blackibanez/docker-serviio.svg)](https://github.com/blackibanez/docker-serviio) [![Docker Build Status](https://img.shields.io/docker/build/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/)
+[![](https://images.microbadger.com/badges/image/blackibanez/serviio.svg)](https://microbadger.com/images/blackibanez/serviio) 
+[![Docker Pulls](https://img.shields.io/docker/pulls/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/) 
+[![Docker Stars](https://img.shields.io/docker/stars/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/)
+[![GitHub last commit](https://img.shields.io/github/last-commit/blackibanez/docker-serviio.svg)](https://github.com/blackibanez/docker-serviio) 
+[![Docker Build Status](https://img.shields.io/docker/build/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/)
 [![Build Status](http://mafreeboxdelta.ddns.net:8099/buildStatus/icon?job=Serviio)](http://mafreeboxdelta.ddns.net:8099/job/Serviio/)
   
 Link on docker hub: [blackibanez/serviio](https://hub.docker.com/r/blackibanez/serviio/)
