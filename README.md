@@ -9,6 +9,7 @@
 [![Docker Build Status](https://img.shields.io/docker/build/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/)
 [![Docker version](https://img.shields.io/docker/v/blackibanez/serviio.svg)](https://hub.docker.com/r/blackibanez/serviio/)
 [![Build Status](http://mafreeboxdelta.ddns.net:8099/buildStatus/icon?job=Serviio)](http://mafreeboxdelta.ddns.net:8099/job/Serviio/)
+[![Image Size](https://img.shields.io/docker/image-size/blackibanez/serviio)](https://hub.docker.com/r/blackibanez/serviio/)
   
 Link on docker hub: [blackibanez/serviio](https://hub.docker.com/r/blackibanez/serviio/)
 
