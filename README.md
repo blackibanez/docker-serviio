@@ -17,7 +17,7 @@ Link on github: [blackibanez/docker-serviio](https://github.com/blackibanez/dock
 
 ### Build Args
 
- - `VERSION` = 2.2 - serviio version
+ - `VERSION` = 2.4 - serviio version
  - `FFMPEG_VERSION` = 4.2
 
 
