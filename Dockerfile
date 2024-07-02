@@ -8,7 +8,7 @@ MAINTAINER "blackibanez"
 
 ARG BUILD_DATE
 ARG VCS_REF
-ARG VERSION=2.3
+ARG VERSION=2.4
 
 LABEL org.label-schema.build-date=$BUILD_DATE \
 	org.label-schema.name="DLNA Serviio Container" \
