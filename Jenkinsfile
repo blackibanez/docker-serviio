@@ -76,6 +76,9 @@ pipeline {
            SERVIIO_VOLUME = credentials('serviio_volume_folder')
            MEDIA_VOLUME = credentials('media_volume_folder')
            DOWNLOADS_VOLUME = credentials('downloads_volume_folder')
+           FREEBOX_VOLUME = credentials('freebox_volume_folder')
+           DEBIAN_DATA = credentials('debian_data_folder')
+           DEBIAN_VIDEOS  = credentials('debian_videos_folder')
            PORT_SSH = credentials('port_ssh')
           } 
 
@@ -95,7 +98,7 @@ pipeline {
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} sudo /usr/local/bin/docker pull blackibanez/$IMAGE_NAME || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} sudo /usr/local/bin/docker stop $IMAGE_NAME_2 || true
               ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} sudo /usr/local/bin/docker rm $IMAGE_NAME_2  || true
-              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} sudo /usr/local/bin/docker run --name $IMAGE_NAME_2 -d --net host -v ${SERVIIO_VOLUME}/log:/opt/serviio/log  -v ${SERVIIO_VOLUME}/library:/opt/serviio/library -v ${SERVIIO_VOLUME}/plugins:/opt/serviio/plugins -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads  blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
+              ssh -o StrictHostKeyChecking=no  -p ${PORT_SSH} ${NUSER}@${PRODUCTION_IP_HOST} sudo /usr/local/bin/docker run --name $IMAGE_NAME_2 -d --net host -v ${SERVIIO_VOLUME}/log:/opt/serviio/log  -v ${SERVIIO_VOLUME}/library:/opt/serviio/library -v ${SERVIIO_VOLUME}/plugins:/opt/serviio/plugins -v $MEDIA_VOLUME:/media/serviio/adult -v $DOWNLOADS_VOLUME:/media/serviio/downloads -v $DEBIAN_DATA:/media/serviio/Debian_data -v $DEBIAN_VIDEOS:/media/serviio/Debian_videos -v $FREEBOX_VOLUME:/media/serviio/Freebox blackibanez/$IMAGE_NAME:$IMAGE_TAG  || true
             '''
              }
            }
